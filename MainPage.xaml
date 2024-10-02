@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckAllocationApp.MainPage"
+             BackgroundColor="#cccccc"             
+             x:DataType="local:MainPage"
+             xmlns:local="clr-namespace:CheckAllocationApp">
+    <Grid BackgroundColor="#cccccc" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <StackLayout Grid.Row="0"  VerticalOptions="FillAndExpand">
+            <!-- Show/Hide Prepared -->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Mostrar Preparadas"
+                                         Margin="20,0,10,0"
+                                         TextColor="Black"
+                                         FontSize="18"
+                                         VerticalOptions="Center"
+                                          />
+
+                <Switch ThumbColor="#333333" OnColor="Gray" IsToggled="{Binding IsShowPreparedToggled}" Toggled="Switch_Toggled"></Switch>
+
+                <Grid HorizontalOptions="EndAndExpand" Margin="20,0,15,0">
+                    <StackLayout Orientation="Horizontal" BackgroundColor="Transparent">
+                        <Label Text="Filtro"
+                                     Margin="20,0,5,0"
+                                     TextColor="{Binding FilterTextColor}"
+                                     FontSize="18"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="EndAndExpand"
+                                      />
+                        <ImageButton VerticalOptions="Center"
+                                 WidthRequest="25"
+                                 HeightRequest="25"
+                                 Source="filter_icon.svg" 
+                                 Margin="0,0,20,0"
+                                 ></ImageButton>
+                    </StackLayout>
+                    <Button HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"></Button>
+                </Grid>
+
+            </StackLayout>
+            <!-- Search By Filter-->
+            <StackLayout IsVisible="{Binding IsFilterVisible}">
+                <StackLayout Orientation="Horizontal">
+                    <Label Margin="20,0,0,0" TextColor="Black" Text="Filtrar por " FontSize="18"></Label>
+                    <Label Margin="0,0,0,0" TextColor="DarkSlateBlue" Text="{Binding ChoosenFilter}" FontSize="18"></Label>
+                </StackLayout>
+                <SearchBar x:Name="FilterSB" Margin="0" TextChanged="SearchBar_TextChanged"></SearchBar>
+            </StackLayout>
+        </StackLayout>
+
+        <CollectionView Grid.Row="1"  x:Name="AlocationItemsList"
+                        ItemsSource="{x:Binding AllocationItems}" 
+                        VerticalOptions="FillAndExpand" 
+                        Margin="0,0,0,20" 
+                        MaximumHeightRequest="700"
+                        SelectionMode="None"
+                        >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:AllocationItem">
+                    <StackLayout>
+                        <Grid Margin="0">
+
+                            <!-- Main Content -->
+                            <Frame Margin="11,11,11,0" BorderColor="Transparent" BackgroundColor="White" Padding="15" VerticalOptions="CenterAndExpand">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- First Column -->
+                                    <StackLayout Grid.Column="0" VerticalOptions="FillAndExpand" Margin="0,50,0,50">
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Part Number" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding PartNumber}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Coverage" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Coverage}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Quantity" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Qty}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Supplier" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Supplier}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Worked" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Worked}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                    </StackLayout>
+
+                                    <!-- Second Column -->
+                                    <StackLayout Grid.Column="1" VerticalOptions="FillAndExpand" Margin="0,50,0,50">
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Guia" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Guia}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Location" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Location}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Delivery Note" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding DeliveryNote}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Quality" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Quality}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.76*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Building" Margin="10,0,0,0" TextColor="Black" FontSize="Small" VerticalOptions="Center" LineBreakMode="CharacterWrap"/>
+                                            <Label Text="{Binding Building}" Margin="10,0,0,0" TextColor="#949494" FontSize="Small" VerticalOptions="Center" HorizontalOptions="FillAndExpand" LineBreakMode="CharacterWrap" Grid.Column="1"/>
+                                        </Grid>
+                                    </StackLayout>
+
+                                    <!-- Bottom Menu -->
+                                    <StackLayout Grid.ColumnSpan="2" BackgroundColor="Transparent" VerticalOptions="Fill">
+                                        <Frame CornerRadius="2" BorderColor="Transparent" HeightRequest="35" BackgroundColor="{Binding Color}" VerticalOptions="EndAndExpand" Padding="0,0,0,0">
+                                            <Label FontSize="Small" Text="{Binding Status}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                                        </Frame>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+
+                            <Button WidthRequest="135" Padding="0" HeightRequest="40"
+                                    Margin="25"
+                                    FontSize="Small"
+                                    BackgroundColor="DarkSlateBlue"
+                                    Text="Ver Guias" HorizontalOptions="EndAndExpand" VerticalOptions="StartAndExpand"
+                                    Command="{Binding Source={x:Reference AlocationItemsList}, Path=BindingContext.ClickedItemIncompleteGuias}"
+                                    CommandParameter="{Binding .}"></Button>
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+         
+    </Grid>
+
+</ContentPage>
